@@ -11,6 +11,9 @@
 - 🔥 响应式属性更新
 - ⚡️ 基于 Vue 3 + Vite + Three.js，性能出色
 
+- ![image](https://github.com/user-attachments/assets/41806cf9-66fb-482c-9c01-9c956744fd0b)
+
+
 ## 安装
 
 ```bash
