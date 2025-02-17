@@ -17,7 +17,8 @@
 ## 安装
 
 ```bash
-# npm install wzx-vue-map
+# npm install vue-wzx-3dmap
+
 ```
 
 ## 开发指南
