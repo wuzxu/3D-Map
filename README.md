@@ -13,19 +13,98 @@
 
 - ![image](https://github.com/user-attachments/assets/41806cf9-66fb-482c-9c01-9c956744fd0b)
 
-
 ## 安装
 
 ```bash
-# npm install vue-wzx-3dmap
+# 安装组件库
+npm install vue-wzx-3dmap
 
+# 安装必需的依赖
+npm install three @types/three gsap@^3.12.0
+```
+
+## 使用方法
+
+### 在 main.js 中配置
+
+```js
+import { createApp } from "vue";
+import App from "./App.vue";
+// 引入组件
+import { WzxThreeMap } from "vue-wzx-3dmap";
+
+const app = createApp(App);
+
+// 全局注册组件
+app.component("WzxThreeMap", WzxThreeMap);
+
+app.mount("#app");
+```
+
+### 在组件中使用
+
+```vue
+<script setup>
+// 局部引入（如果已经全局注册则不需要这行）
+import { WzxThreeMap } from "vue-wzx-3dmap";
+
+// 配置地图颜色
+const colors = {
+  topColor: "#56fffd", // 顶面颜色
+  sideColor: "#0aa09e", // 侧面颜色
+  lineColor: "#bff7ff", // 线条颜色
+  glowLineColor: "#bff7ff", // 发光线条颜色
+  outerGlowColor: "#7cfffd", // 外发光颜色
+};
+
+// 配置选中状态的颜色
+const activeColors = {
+  topColor: "#ffc64d", // 选中时顶面颜色
+  sideColor: "#c87a16", // 选中时侧面颜色
+};
+
+// 相机配置
+const cameraConfig = {
+  position: { x: 0, y: 1, z: 1 }, // 相机位置
+  fov: 35, // 视场角
+  near: 0.1, // 近裁剪面
+  far: 1000, // 远裁剪面
+};
+
+// 点击区域的处理函数
+const handleRegionClick = (region) => {
+  console.log("点击的区域：", region);
+};
+</script>
+
+<template>
+  <div class="map-container">
+    <WzxThreeMap
+      :mapJson="mapData"
+      :mapColors="colors"
+      :activeColors="activeColors"
+      :cameraConfig="cameraConfig"
+      @regionClick="handleRegionClick"
+    />
+  </div>
+</template>
+
+<style scoped>
+.map-container {
+  width: 100%;
+  height: 600px;
+}
+</style>
 ```
 
 ## 开发指南
 
-### 环境准备
+### 环境要求
 
-推荐使用 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) 进行开发。
+- Node.js >= 16
+- Vue >= 3.3
+- Three.js >= 0.150.0
+- GSAP >= 3.12.0
 
 ### 本地开发
 
@@ -41,63 +120,6 @@ npm run dev
 
 # 打包构建
 npm run build
-```
-
-## 使用示例
-
-```vue
-<template>
-  <div id="map-container">
-    <wzx-three-map
-      :mapJson="mapData"
-      :mapColors="colors"
-      :activeColors="activeColors"
-      :backgroundImage="bgImage"
-      :cameraConfig="cameraConfig"
-      @regionClick="handleRegionClick"
-    />
-  </div>
-</template>
-
-<script setup>
-const colors = {
-  topColor: "#56fffd", // 顶面颜色
-  sideColor: "#0aa09e", // 侧面颜色
-  lineColor: "#bff7ff", // 线条颜色
-  glowLineColor: "#bff7ff", // 发光线条颜色
-  outerGlowColor: "#7cfffd", // 外发光颜色
-};
-
-const activeColors = {
-  topColor: "#ffc64d", // 选中时顶面颜色
-  sideColor: "#c87a16", // 选中时侧面颜色
-};
-
-const cameraConfig = {
-  position: { x: 0, y: 1, z: 1 }, // 相机位置
-  fov: 35, // 视场角
-  near: 0.1, // 近裁剪面
-  far: 1000, // 远裁剪面
-  minDistance: 0.5, // 最小缩放距离
-  maxDistance: 3, // 最大缩放距离
-  minPolarAngle: 0, // 最小仰角
-  maxPolarAngle: Math.PI / 2, // 最大仰角
-  enablePan: false, // 是否启用平移
-  dampingFactor: 0.1, // 阻尼系数
-  autoRotate: false, // 是否自动旋转
-  autoRotateSpeed: 2.0, // 自动旋转速度
-};
-</script>
-
-<style>
-#map-container {
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-</style>
 ```
 
 ## API 文档
@@ -140,15 +162,7 @@ const cameraConfig = {
   position: { x: 0, y: 1, z: 1 }, // 相机位置
   fov: 35,                        // 视场角
   near: 0.1,                      // 近裁剪面
-  far: 1000,                      // 远裁剪面
-  minDistance: 0.5,               // 最小缩放距离
-  maxDistance: 3,                 // 最大缩放距离
-  minPolarAngle: 0,               // 最小仰角
-  maxPolarAngle: Math.PI / 2,     // 最大仰角
-  enablePan: false,               // 是否启用平移
-  dampingFactor: 0.1,             // 阻尼系数
-  autoRotate: false,              // 是否自动旋转
-  autoRotateSpeed: 2.0            // 自动旋转速度
+  far: 1000                       // 远裁剪面
 }
 ```
 
